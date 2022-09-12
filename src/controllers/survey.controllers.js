@@ -16,28 +16,38 @@ exports.createSurvey = (req, res) => {
     phone: req.body.phone,
     email: req.body.email,
   });
-
-  survey
-    .save()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.log(err);
+  console.log("Je suis survey = ",survey);
+  if (survey.request && survey.assistance == "yes") {
+    survey
+      .save()
+      .then(() => {
+        console.log("Je suis dans le cas ou tout c'est bien passé");
+        res.status(201).json({
+          status: "Create"
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    console.log("Je suis dans le cas ou il y a une erreur");
+    res.status(403).json({
+      status: "Not Created"
     });
+  }
 };
 
 //Gerer la gestion de l'erreur car return tout le temps 200
 exports.deleteSurvey = (req, res) => {
-    Survey.deleteOne({ _id: req.query.id })
-      .then(() => {
-        res.status(200).json({
-          message: " Survey deleted successfully !",
-        });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          error: error,
-        });
+  Survey.deleteOne({ _id: req.query.id })
+    .then(() => {
+      res.status(200).json({
+        message: " Survey deleted successfully !",
       });
-  };
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
+};
