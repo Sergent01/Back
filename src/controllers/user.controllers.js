@@ -67,3 +67,12 @@ exports.login = (req, res) => {
         res.status(404).send(err);
       });
   };
+
+  exports.verifyToken = (req, res) => {
+    if (req.user) {
+      res.status(200).json({ verify: true });
+    }
+    else{
+      res.status(400).json({ verify: false})
+    }
+  };
