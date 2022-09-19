@@ -17,7 +17,7 @@ exports.createSurvey = (req, res) => {
     email: req.body.email,
   });
   console.log("Je suis survey = ",survey);
-  if (survey.request && survey.assistance == "yes") {
+  if ((survey.request === "yes") && (survey.assistance === "yes")) {
     survey
       .save()
       .then(() => {
